@@ -1,6 +1,6 @@
 const player1 = {
     name: 'SUB-ZERO',
-    hp: 80,
+    hp: 85,
     img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
     weapon: ['palm', 'stick'],
     attack: function() {
