@@ -1,5 +1,3 @@
-console.log('Start...');
-
 const player1 = {
     name: 'SUB-ZERO',
     hp: 80,
@@ -20,10 +18,9 @@ const player2 = {
     },
 };
 
-player1.attack();
-player2.attack();
-
 function createPlayer(className, player) {
+    const $arenas = document.querySelector('.arenas');
+
     const $player = document.createElement('div');
     $player.classList.add(className);
 
@@ -49,10 +46,8 @@ function createPlayer(className, player) {
     $img.src = player.img;
     $character.appendChild($img);
 
-    const $arenas = document.querySelector('.arenas');
     $arenas.appendChild($player);
 }
 
 createPlayer('player1', player1);
 createPlayer('player2', player2);
-console.log(document);
