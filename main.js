@@ -51,14 +51,13 @@ function createPlayer(playerObj) {
     return $player;
 }
 
-function calcRandomPoints() {
-    const points = Math.ceil(Math.random() * 20);
-    return points;
+function getRandomNum() {
+    return Math.ceil(Math.random() * 20);
 }
 
 function changeHp(player) {
     const $playerLife = document.querySelector('.player'+ player.player +' .life');
-    const points = calcRandomPoints();
+    const points = getRandomNum();
 
     if (player.hp > points) {
         player.hp -= points;
@@ -66,13 +65,6 @@ function changeHp(player) {
         player.hp = 0;
     }
     $playerLife.style.width = player.hp + '%';
-
-    if (player.hp === 0) {
-        $randomButton.disabled = true;
-        $randomButton.style.backgroundColor = 'lightgrey';
-        $randomButton.style.cursor = 'not-allowed';
-        calcFinalScore();
-    }
 }
 
 function calcFinalScore() {
@@ -101,6 +93,10 @@ function calcFinalScore() {
 $randomButton.addEventListener('click', function () {
     changeHp(player1);
     changeHp(player2);
+    if (player1.hp === 0 || player2.hp === 0) {
+        $randomButton.disabled = true;
+        calcFinalScore();
+    }
 })
 
 $arenas.appendChild(createPlayer(player1));

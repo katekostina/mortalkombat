@@ -262,6 +262,11 @@ body {
     top: 1px;
 }
 
+.button:disabled {
+    background-color: lightgrey;
+    cursor: not-allowed;
+}
+
 .loseTitle {
     position: absolute;
     top: 25%;
