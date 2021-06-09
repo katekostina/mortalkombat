@@ -1,28 +1,6 @@
 const $arenas = document.querySelector('.arenas');
 const $randomButton = document.querySelector('.button');
 
-const player1 = {
-    player: 1,
-    name: 'SUB-ZERO',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-    weapon: ['palm', 'stick'],
-    attack: function() {
-        console.log(this.name + ' fight...');
-    },
-};
-
-const player2 = {
-    player: 2,
-    name: 'SONYA',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
-    weapons: ['fist', 'fireball'],
-    attack: function() {
-        console.log(this.name + ' fight...');
-    },
-};
-
 function createElement(tag, className) {
     const $tag = document.createElement(tag);
     if (className) {
@@ -51,21 +29,62 @@ function createPlayer(playerObj) {
     return $player;
 }
 
-function getRandomNum() {
-    return Math.ceil(Math.random() * 20);
+function getRandomNum(max) {
+    return Math.ceil(Math.random() * max);
 }
 
-function changeHp(player) {
-    const $playerLife = document.querySelector('.player'+ player.player +' .life');
-    const points = getRandomNum();
-
-    if (player.hp > points) {
-        player.hp -= points;
+function changeHP(points) {
+    if (this.hp > points) {
+        this.hp -= points;
     } else {
-        player.hp = 0;
+        this.hp = 0;
     }
-    $playerLife.style.width = player.hp + '%';
 }
+
+function elHP() {
+    return document.querySelector('.player'+ this.player +' .life');
+}
+
+function renderHP() {
+    const $life = this.elHP();
+    $life.style.width = this.hp + '%';
+}
+
+function createReloadButton() {
+    const $reloadWrap = createElement('div', 'reloadWrap');
+    const $restartButton = createElement('button', 'button');
+    $restartButton.innerText = 'Restart';
+    $reloadWrap.appendChild($restartButton);
+    return $reloadWrap;
+}
+
+const player1 = {
+    player: 1,
+    name: 'SUB-ZERO',
+    hp: 100,
+    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
+    weapon: ['palm', 'stick'],
+    attack: function() {
+        console.log(this.name + ' fight...');
+    },
+    changeHP: changeHP,
+    elHP: elHP,
+    renderHP: renderHP,
+};
+
+const player2 = {
+    player: 2,
+    name: 'SONYA',
+    hp: 100,
+    img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
+    weapons: ['fist', 'fireball'],
+    attack: function() {
+        console.log(this.name + ' fight...');
+    },
+    changeHP: changeHP,
+    elHP: elHP,
+    renderHP: renderHP,
+};
 
 function calcFinalScore() {
     let roundResult;
@@ -88,16 +107,29 @@ function calcFinalScore() {
         $arenas.appendChild($newTitle);
     }
 
+    const $reloadButton = createReloadButton();
+    $arenas.appendChild($reloadButton);
+    $reloadButton.addEventListener('click', function () {
+        window.location.reload();
+    })
 }
 
 $randomButton.addEventListener('click', function () {
-    changeHp(player1);
-    changeHp(player2);
+    player1.changeHP(getRandomNum(20));
+    player1.renderHP();
+
+    player2.changeHP(getRandomNum(20));
+    player2.renderHP();
+
     if (player1.hp === 0 || player2.hp === 0) {
         $randomButton.disabled = true;
         calcFinalScore();
     }
 })
 
+
+
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
+
+
