@@ -197,6 +197,7 @@ function generateLogs(type, attacker, defending, damage) {
             break;
         default:
             log = 'Something went wrong...';
+            break;
     }
 
     const el = `<p>${log}</p>`;
