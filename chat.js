@@ -1,14 +1,13 @@
-import {LOGS} from './constants.js';
-import {getRandomNum} from './utils.js';
-import {$chat} from './domConstants.js';
+import { LOGS } from './constants';
+import { getRandomNum, getTime } from './utils';
+import { $chat } from './constants/domConstants.js';
 
 function generateLogs(type, { name: attackerName }, { name: defendingName, hp: defendingHp }, damage) {
     const data = LOGS[type];
-    const date = new Date();
-    const time = date.toTimeString().slice(0, 5);
+    const time = getTime();
     const i = (getRandomNum(data.length) - 1);
-    let log;
 
+    let log;
     switch (type) {
         case 'start':
             log = data.replace('[time]', time).replace('[player1]', attackerName).replace('[player2]', defendingName);
@@ -19,7 +18,7 @@ function generateLogs(type, { name: attackerName }, { name: defendingName, hp: d
         case 'hit':
         case 'defence':
             let text = data[i].replace('[playerKick]', attackerName).replace('[playerDefence]', defendingName);
-            log = `${time} ${text} ${(damage ? (defendingName + ' -' + damage + 'hp: ' + defendingHp + '/100') : '')}`;
+            log = `${time} ${text} ${(damage ? (defendingName + ' -' + damage + ' [' + defendingHp + '/100]') : '')}`;
             break;
         case 'draw':
             log = `${time} ${data}`;
