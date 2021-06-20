@@ -1,3 +1,5 @@
+import { $arenas } from './domConstants.js';
+
 const HIT = {
     head: 30,
     body: 25,
@@ -43,5 +45,20 @@ const LOGS = {
     ],
     draw: 'Ничья - это тоже победа!'
 };
+const PLAYER1 = {
+    player: 1,
+    name: 'SONYA',
+    hp: 100,
+    img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
+    rootSelector: $arenas,
+};
+const PLAYER2 = {
+    player: 2,
+    name: 'SUB-ZERO',
+    hp: 100,
+    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
+    rootSelector: $arenas,
+}
 
-export { HIT, ATTACK, LOGS };
+
+export { HIT, ATTACK, LOGS, PLAYER1, PLAYER2 };
