@@ -1,6 +1,7 @@
 import { createElement } from '../utils';
 import { generateLogs } from '../chat.js';
-import { player1, player2 } from '../Game';
+// import { player1, player2 } from '../Game';
+import { game } from '../main.js';
 
 class Player {
     constructor(props) {
@@ -30,8 +31,12 @@ class Player {
     }
 
     attack = (ourMove, enemyMove) => {
-        const attacker = (this.player === 1 ? player1 : player2);
-        const defending = (this.player === 1 ? player2 : player1);
+        // const attacker = (this.player === 1 ? player1 : player2);
+        // const defending = (this.player === 1 ? player2 : player1);
+
+        const attacker = (this.player === 1 ? game.player1 : game.player2);
+        const defending = (this.player === 1 ? game.player2 : game.player1);
+
         if (ourMove.hit !== enemyMove.defence) {
             defending.changeHP(ourMove.value);
             defending.renderHP();

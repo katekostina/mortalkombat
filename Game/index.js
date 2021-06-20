@@ -1,19 +1,21 @@
 import {$arenas, $formButton, $formFight, createReloadButton} from "../constants/domConstants.js";
-import {ATTACK, HIT, PLAYER1, PLAYER2} from "../constants";
 import {createElement, getRandomNum} from "../utils";
 import {generateLogs} from "../chat.js";
 import Player from "../Player";
 
-const player1 = new Player(PLAYER1);
-const player2 = new Player(PLAYER2);
-
 class Game {
+    constructor(props) {
+        this.player1 = new Player(props.PLAYER1);
+        this.player2 = new Player(props.PLAYER2);
+        this.attackParts = props.ATTACK;
+        this.hitPoints = props.HIT;
+    }
      parsePlayer1Move = (formElement) => {
         const move = {};
         for (let item of formElement) {
             const { name, value, checked } = item;
             if (checked === true && name === 'hit') {
-                move.value = getRandomNum(HIT[value]);
+                move.value = getRandomNum(this.hitPoints[value]);
                 move.hit = value;
             } else if (checked === true && name === 'defence') {
                 move.defence = value;
@@ -24,10 +26,10 @@ class Game {
     }
 
     generatePlayer2Move = () => {
-        const hit = ATTACK[getRandomNum(3) - 1];
-        const defence = ATTACK[getRandomNum(3) - 1];
+        const hit = this.attackParts[getRandomNum(3) - 1];
+        const defence = this.attackParts[getRandomNum(3) - 1];
         return {
-            value: getRandomNum(HIT[hit]),
+            value: getRandomNum(this.hitPoints[hit]),
             hit,
             defence,
         }
@@ -35,15 +37,15 @@ class Game {
 
     calcFinalScore = () => {
         let roundResult;
-        if (player1.hp === 0 && player2.hp === 0) {
+        if (this.player1.hp === 0 && this.player2.hp === 0) {
             roundResult = 'draw';
             generateLogs('draw');
-        } else if (player1.hp === 0) {
-            roundResult = player2.name + ' wins';
-            generateLogs('end', player2, player1);
-        } else if (player2.hp === 0) {
-            roundResult = player1.name + ' wins';
-            generateLogs('end', player1, player2);
+        } else if (this.player1.hp === 0) {
+            roundResult = this.player2.name + ' wins';
+            generateLogs('end', this.player2, this.player1);
+        } else if (this.player2.hp === 0) {
+            roundResult = this.player1.name + ' wins';
+            generateLogs('end', this.player1, this.player2);
         } else {
             console.log('Something went wrong');
         }
@@ -64,20 +66,20 @@ class Game {
             const player1Move = this.parsePlayer1Move($formFight);
             const player2Move = this.generatePlayer2Move();
 
-            player1.attack(player1Move, player2Move);
-            player2.attack(player2Move, player1Move);
+            this.player1.attack(player1Move, player2Move);
+            this.player2.attack(player2Move, player1Move);
 
-            if (player1.hp === 0 || player2.hp === 0) {
+            if (this.player1.hp === 0 || this.player2.hp === 0) {
                 $formButton.disabled = true;
                 this.calcFinalScore();
                 createReloadButton();
             }
         })
 
-        player1.createPlayer();
-        player2.createPlayer();
-        generateLogs('start', player1, player2);
+        this.player1.createPlayer();
+        this.player2.createPlayer();
+        generateLogs('start', this.player1, this.player2);
     }
 }
 
-export { Game, player1, player2 };
+export default Game;
