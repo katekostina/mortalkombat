@@ -57,7 +57,7 @@ function createReloadButton() {
     $reloadButton.innerText = 'Restart';
 
     $reloadButton.addEventListener('click', function () {
-        window.location.reload();
+        window.location.pathname = 'mortalkombat/index.html';
     })
 
     $reloadButtonContainer.appendChild($reloadButton);

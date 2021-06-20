@@ -16,12 +16,11 @@ class Game {
     }
 
     start = async () => {
-        const players = await this.getPlayers();
         const autoEnemy = await this.getAutoEnemy();
+        const playerPicked = JSON.parse(localStorage.getItem('player1'));
 
-        const p1 = players[getRandomNum(players.length) - 1];
         this.player1 = new Player({
-            ...p1,
+            ...playerPicked,
             player: 1,
             rootSelector: $arenas,
         });
@@ -37,7 +36,6 @@ class Game {
             const player1Choice = this.parsePlayer1Choice($formFight);
 
             const { player1: player1Move,  player2: player2Move } = await this.fight(player1Choice);
-            console.log(player1Move, player2Move);
 
             this.player1.attack(player1Move, player2Move);
             this.player2.attack(player2Move, player1Move);
