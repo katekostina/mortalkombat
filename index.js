@@ -45,7 +45,7 @@ async function init() {
             el.classList.add('active');
 
             setTimeout(() => {
-                window.location.pathname = 'mortalkombat/Arenas/arenas.html';
+                window.location.pathname = './Arenas/arenas.html';
             }, 1000);
         });
 
