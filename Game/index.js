@@ -106,4 +106,4 @@ class Game {
     }
 }
 
-export default Game;
+export { Game };
