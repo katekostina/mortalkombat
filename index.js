@@ -47,9 +47,9 @@ async function init() {
 
             setTimeout(() => {
                 // USE THIS PATH WHEN RUN LOCALLY:
-                window.location.pathname = 'mortalkombat/Arenas/arenas.html';
+                // window.location.pathname = 'mortalkombat/Arenas/arenas.html';
                 // THIS PATH IS FOR NETLIFY:
-                // window.location.pathname = './Arenas/arenas.html';
+                window.location.pathname = './Arenas/arenas.html';
             }, 1000);
         });
 
