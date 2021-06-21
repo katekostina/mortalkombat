@@ -1,6 +1,6 @@
 import { createElement } from '../utils/index.js';
 import { generateLogs } from '../chat.js';
-import { game } from '../Arenas/arenas.js';
+// import { game } from '../Arenas/arenas.js';
 
 class Player {
     constructor(props) {
