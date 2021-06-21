@@ -57,7 +57,10 @@ function createReloadButton() {
     $reloadButton.innerText = 'Restart';
 
     $reloadButton.addEventListener('click', function () {
-        window.location.pathname = 'mortalkombat/index.html';
+        // USE THIS TO RUN LOCALLY:
+        // window.location.pathname = 'mortalkombat/index.html';
+        // THIS IS PATH FOR NETLIFY BUILD:
+        window.location.pathname = '../index.html';
     })
 
     $reloadButtonContainer.appendChild($reloadButton);

@@ -80,8 +80,6 @@ class Game {
     }
 
     fight = (player1Move, player2Move) => {
-        console.log('player1Move', player1Move, 'player2Move', player2Move);
-
         // player1 attacks player 2
         if (player1Move.hit !== player2Move.defence) {
             this.player2.changeHP(player1Move.value);
