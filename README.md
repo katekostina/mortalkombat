@@ -1,2 +1,7 @@
-# mortalkombat
-published https://mortal-kombat-kate-kostina.netlify.app/
+# MortalKombat
+### but very simplified on vanilla JS
+
+try here: https://mortal-kombat-kate-kostina.netlify.app/
+
+<img align="left" width="400px" src="https://github.com/katekostina/mortalkombat/blob/main/choose.png">
+<img align="left" width="400px" src="https://github.com/katekostina/mortalkombat/blob/main/fight.png">
