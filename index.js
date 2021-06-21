@@ -1,4 +1,5 @@
 import { createElement } from './utils/index.js';
+
 const $parent = document.querySelector('.parent');
 const $player = document.querySelector('.player');
 
@@ -45,6 +46,9 @@ async function init() {
             el.classList.add('active');
 
             setTimeout(() => {
+                // USE THIS PATH WHEN RUN LOCALLY:
+                // window.location.pathname = 'mortalkombat/Arenas/arenas.html';
+                // THIS PATH IS FOR NETLIFY:
                 window.location.pathname = './Arenas/arenas.html';
             }, 1000);
         });

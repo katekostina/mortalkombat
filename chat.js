@@ -1,5 +1,5 @@
-import { LOGS, $chat } from './constants';
-import { getRandomNum, getTime } from './utils';
+import { LOGS, $chat } from './constants/index.js';
+import { getRandomNum, getTime } from './utils/index.js';
 
 function generateLogs(type, { name: attackerName }, { name: defendingName, hp: defendingHp }, damage) {
     const data = LOGS[type];

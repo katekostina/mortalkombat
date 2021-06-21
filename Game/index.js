@@ -1,7 +1,7 @@
-import {$arenas, $formButton, $formFight, createReloadButton} from "../constants";
-import {createElement, getRandomNum} from "../utils";
+import {$arenas, $formButton, $formFight, createReloadButton} from "../constants/index.js";
+import {createElement, getRandomNum} from "../utils/index.js";
 import {generateLogs} from "../chat.js";
-import Player from "../Player";
+import Player from "../Player/index.js";
 
 class Game {
     getPlayers = async () => {

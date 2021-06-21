@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { createElement } from '../utils/index.js';
 
 const $arenas = document.querySelector('.arenas');
 const $formFight = document.querySelector('.control');

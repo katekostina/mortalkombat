@@ -1,4 +1,4 @@
-import Game from '../Game';
+import Game from '../Game/index.js';
 
 export const game = new Game();
 

@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import { createElement } from '../utils/index.js';
 import { generateLogs } from '../chat.js';
 import { game } from '../Arenas/arenas.js';
 
