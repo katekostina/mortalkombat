@@ -1,4 +1,4 @@
-import { createElement } from './utils';
+import { createElement } from './utils/index.js';
 const $parent = document.querySelector('.parent');
 const $player = document.querySelector('.player');
 
