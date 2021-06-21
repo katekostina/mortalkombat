@@ -1,38 +1,83 @@
-import {$arenas, $formButton, $formFight, createReloadButton} from "../constants/domConstants.js";
+import {$arenas, $formButton, $formFight, createReloadButton} from "../constants";
 import {createElement, getRandomNum} from "../utils";
 import {generateLogs} from "../chat.js";
 import Player from "../Player";
 
 class Game {
-    constructor(props) {
-        this.player1 = new Player(props.PLAYER1);
-        this.player2 = new Player(props.PLAYER2);
-        this.attackParts = props.ATTACK;
-        this.hitPoints = props.HIT;
+    getPlayers = async () => {
+        const res = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/players', { method: 'GET' });
+        const body = await res.json();
+        return body;
+    };
+
+    getAutoEnemy = async () => {
+        const body = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose').then(res => res.json());
+        return body;
     }
-     parsePlayer1Move = (formElement) => {
+
+    start = async () => {
+        const autoEnemy = await this.getAutoEnemy();
+        const playerPicked = JSON.parse(localStorage.getItem('player1'));
+
+        this.player1 = new Player({
+            ...playerPicked,
+            player: 1,
+            rootSelector: $arenas,
+        });
+
+        this.player2 = new Player({
+            ...autoEnemy,
+            player: 2,
+            rootSelector: $arenas,
+        });
+
+        $formFight.addEventListener('submit',  async (e) => {
+            e.preventDefault();
+            const player1Choice = this.parsePlayer1Choice($formFight);
+
+            const { player1: player1Move,  player2: player2Move } = await this.fight(player1Choice);
+
+            this.player1.attack(player1Move, player2Move);
+            this.player2.attack(player2Move, player1Move);
+
+            if (this.player1.hp === 0 || this.player2.hp === 0) {
+                $formButton.disabled = true;
+                this.calcFinalScore();
+                createReloadButton();
+            }
+        })
+
+        this.player1.createPlayer();
+        this.player2.createPlayer();
+        generateLogs('start', this.player1, this.player2);
+    }
+
+    fight = async ({ hit, defence}) => {
+        const res = await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+            method: 'POST',
+            body: JSON.stringify({
+                hit,
+                defence,
+            })
+        }).then(res => res.json());
+        return res;
+    }
+
+    parsePlayer1Choice = (formElement) => {
         const move = {};
         for (let item of formElement) {
             const { name, value, checked } = item;
-            if (checked === true && name === 'hit') {
-                move.value = getRandomNum(this.hitPoints[value]);
-                move.hit = value;
-            } else if (checked === true && name === 'defence') {
-                move.defence = value;
+            if (checked) {
+                switch (name) {
+                    case 'hit': move.hit = value;
+                        break;
+                    case 'defence': move.defence = value;
+                        break;
+                }
             }
             item.checked = false;
         }
         return move;
-    }
-
-    generatePlayer2Move = () => {
-        const hit = this.attackParts[getRandomNum(3) - 1];
-        const defence = this.attackParts[getRandomNum(3) - 1];
-        return {
-            value: getRandomNum(this.hitPoints[hit]),
-            hit,
-            defence,
-        }
     }
 
     calcFinalScore = () => {
@@ -58,27 +103,6 @@ class Game {
             $newTitle.innerText = roundResult;
             $arenas.appendChild($newTitle);
         }
-    }
-
-    start = () => {
-        $formFight.addEventListener('submit',  (e) => {
-            e.preventDefault();
-            const player1Move = this.parsePlayer1Move($formFight);
-            const player2Move = this.generatePlayer2Move();
-
-            this.player1.attack(player1Move, player2Move);
-            this.player2.attack(player2Move, player1Move);
-
-            if (this.player1.hp === 0 || this.player2.hp === 0) {
-                $formButton.disabled = true;
-                this.calcFinalScore();
-                createReloadButton();
-            }
-        })
-
-        this.player1.createPlayer();
-        this.player2.createPlayer();
-        generateLogs('start', this.player1, this.player2);
     }
 }
 

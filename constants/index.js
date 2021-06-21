@@ -1,4 +1,9 @@
-import { $arenas } from './domConstants.js';
+import { createElement } from '../utils';
+
+const $arenas = document.querySelector('.arenas');
+const $formFight = document.querySelector('.control');
+const $formButton = document.querySelector('.control .buttonWrap .button');
+const $chat = document.querySelector('.chat');
 
 const HIT = {
     head: 30,
@@ -45,20 +50,18 @@ const LOGS = {
     ],
     draw: 'Ничья - это тоже победа!'
 };
-const PLAYER1 = {
-    player: 1,
-    name: 'SONYA',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
-    rootSelector: $arenas,
-};
-const PLAYER2 = {
-    player: 2,
-    name: 'SUB-ZERO',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-    rootSelector: $arenas,
+
+function createReloadButton() {
+    const $reloadButtonContainer = createElement('div', 'reloadWrap');
+    const $reloadButton = createElement('button', 'button');
+    $reloadButton.innerText = 'Restart';
+
+    $reloadButton.addEventListener('click', function () {
+        window.location.pathname = 'mortalkombat/index.html';
+    })
+
+    $reloadButtonContainer.appendChild($reloadButton);
+    $arenas.appendChild($reloadButtonContainer);
 }
 
-
-export { HIT, ATTACK, LOGS, PLAYER1, PLAYER2 };
+export { HIT, ATTACK, LOGS, $arenas, $formFight, $formButton, $chat, createReloadButton };
