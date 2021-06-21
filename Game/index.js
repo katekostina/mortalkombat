@@ -95,7 +95,7 @@ class Game {
             this.player1.renderHP();
             generateLogs('hit', this.player2, this.player1, player2Move.value);
         } else {
-            generateLogs('defence', this.player2, this.player1, player2Move.value);
+            generateLogs('defence', this.player2, this.player1);
         }
     }
 
