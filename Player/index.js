@@ -1,6 +1,5 @@
 import { createElement } from '../utils/index.js';
 import { generateLogs } from '../chat.js';
-// import { game } from '../Arenas/arenas.js';
 
 class Player {
     constructor(props) {
@@ -27,19 +26,6 @@ class Player {
     renderHP = () => {
         const $life = this.elHP();
         $life.style.width = this.hp + '%';
-    }
-
-    attack = (ourMove, enemyMove) => {
-        const attacker = (this.player === 1 ? game.player1 : game.player2);
-        const defending = (this.player === 1 ? game.player2 : game.player1);
-
-        if (ourMove.hit !== enemyMove.defence) {
-            defending.changeHP(ourMove.value);
-            defending.renderHP();
-            generateLogs('hit', attacker, defending, ourMove.value);
-        } else {
-            generateLogs('defence', attacker, defending, 0);
-        }
     }
 
     createPlayer = () => {

@@ -35,10 +35,9 @@ class Game {
             e.preventDefault();
             const player1Choice = this.parsePlayer1Choice($formFight);
 
-            const { player1: player1Move,  player2: player2Move } = await this.fight(player1Choice);
+            const { player1: player1Move,  player2: player2Move } = await this.getPlayersMoves(player1Choice);
 
-            this.player1.attack(player1Move, player2Move);
-            this.player2.attack(player2Move, player1Move);
+            this.fight(player1Move, player2Move);
 
             if (this.player1.hp === 0 || this.player2.hp === 0) {
                 $formButton.disabled = true;
@@ -50,17 +49,6 @@ class Game {
         this.player1.createPlayer();
         this.player2.createPlayer();
         generateLogs('start', this.player1, this.player2);
-    }
-
-    fight = async ({ hit, defence}) => {
-        const res = await fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
-            method: 'POST',
-            body: JSON.stringify({
-                hit,
-                defence,
-            })
-        }).then(res => res.json());
-        return res;
     }
 
     parsePlayer1Choice = (formElement) => {
@@ -78,6 +66,39 @@ class Game {
             item.checked = false;
         }
         return move;
+    }
+
+    getPlayersMoves = async ({ hit, defence}) => {
+        const res = await fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+            method: 'POST',
+            body: JSON.stringify({
+                hit,
+                defence,
+            })
+        }).then(res => res.json());
+        return res;
+    }
+
+    fight = (player1Move, player2Move) => {
+        console.log('player1Move', player1Move, 'player2Move', player2Move);
+
+        // player1 attacks player 2
+        if (player1Move.hit !== player2Move.defence) {
+            this.player2.changeHP(player1Move.value);
+            this.player2.renderHP();
+            generateLogs('hit', this.player1, this.player2, player1Move.value);
+        } else {
+            generateLogs('defence', this.player1, this.player2, player1Move.value);
+        }
+
+        //player2 attacks player1
+        if (player2Move.hit !== player1Move.defence) {
+            this.player1.changeHP(player2Move.value);
+            this.player1.renderHP();
+            generateLogs('hit', this.player2, this.player1, player2Move.value);
+        } else {
+            generateLogs('defence', this.player2, this.player1, player2Move.value);
+        }
     }
 
     calcFinalScore = () => {
