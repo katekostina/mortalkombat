@@ -4,4 +4,4 @@ const game = new Game();
 
 game.start();
 
-export { game };
+// export { game };
