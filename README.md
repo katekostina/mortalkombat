@@ -1,4 +1,4 @@
-### MortalKombat
+## MortalKombat
 ##### but very simplified on vanilla JS
 
 try here: https://mortal-kombat-kate-kostina.netlify.app/
